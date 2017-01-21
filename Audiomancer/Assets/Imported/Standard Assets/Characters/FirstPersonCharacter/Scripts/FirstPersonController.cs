@@ -10,6 +10,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+        public bool canMove = true;
+
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -65,7 +67,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
             {
-                m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
+                m_Jump = canMove ? CrossPlatformInputManager.GetButtonDown("Jump") : false;
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -204,8 +206,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void GetInput(out float speed)
         {
             // Read input
-            float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-            float vertical = CrossPlatformInputManager.GetAxis("Vertical");
+            float horizontal = canMove ? CrossPlatformInputManager.GetAxis("Horizontal") : 0f;
+            float vertical = canMove ? CrossPlatformInputManager.GetAxis("Vertical") : 0f;
 
             bool waswalking = m_IsWalking;
 
