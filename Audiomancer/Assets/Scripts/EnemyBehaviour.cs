@@ -22,10 +22,8 @@ public class EnemyBehaviour : MonoBehaviour {
     // Check if player is within view radius
     void OnTriggerStay(Collider other) {
         if (other.tag == "Player") {    // Check for player
-            if (Vector3.Angle(transform.forward, other.transform.position) <= 60) {
-                if(agent.pathPending == false) // Check if there is a path set
-                    agent.SetDestination(other.transform.position);
-                test = true;
+            if (Vector3.Angle(transform.forward, other.transform.position) <= 70) {
+                agent.SetDestination(other.transform.position);
             }
         }
     }
