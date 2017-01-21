@@ -15,14 +15,18 @@ public class Health : MonoBehaviour {
     private void OnTriggerEnter(Collider col) {
         var colDamage = GetCollisionDamage(col.gameObject.name);
         if (colDamage.HasValue && colDamage.Value != 0) { // positive damage value indicates single-shot damage
-            DoDamage(Mathf.Abs(colDamage.Value));
+            if (AttackDoesDamage(col.gameObject.name)) {
+                DoDamage(Mathf.Abs(colDamage.Value));
+            }
         }
     }
 
     private void OnTriggerStay(Collider col) {
         var colDamage = GetCollisionDamage(col.gameObject.name);
         if (colDamage.HasValue && colDamage.Value < 0) { // sustained damage indicated by negative damage
-            DoDamage(Mathf.Abs(colDamage.Value));
+            if (AttackDoesDamage(col.gameObject.name)) {
+                DoDamage(Mathf.Abs(colDamage.Value));
+            }
         }
     }
 
@@ -57,10 +61,31 @@ public class Health : MonoBehaviour {
         audioSource.PlayOneShot(deathSound);
     }
 
+    bool AttackDoesDamage(string collisionName) {
+        var damageTags = GetDamageTags(collisionName);
+        if (damageTags == null)
+            return false;
+
+        foreach(var tag in damageTags) {
+            if (gameObject.tag.Contains(tag)) // see if gameObject's tag matches any of the damage tags
+                return true;
+        }
+
+        return false;
+    }
+
     float? GetCollisionDamage(string collisionName) {
         var match = Regex.Match(collisionName, @"(?<=\[)(\+?\d+(\.\d+)?)(?=\])"); // use floats like [30] or [25.5] to do damage, or [-30] or [-25.5] for sustained damage
         if (match.Success)
             return float.Parse(match.Value);
+        else
+            return null;
+    }
+
+    string[] GetDamageTags(string collisionName) {
+        var match = Regex.Match(collisionName, @"(?<=\|)(\D+)(?=\|)"); // get string of tags that should do damage
+        if (match.Success)
+            return match.Value.Split(',');
         else
             return null;
     }
