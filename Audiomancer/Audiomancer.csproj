@@ -124,8 +124,10 @@
     <Compile Include="Assets\Scripts\DestroyOnTouch.cs" />
     <Compile Include="Assets\Scripts\DestroyTimer.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\OnTouchCallFunction.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Propel.cs" />
+    <Compile Include="Assets\Scripts\Transition.cs" />
     <Compile Include="Assets\Scripts\Widen.cs" />
   </ItemGroup>
   <ItemGroup>
