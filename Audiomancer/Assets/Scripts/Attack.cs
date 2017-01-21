@@ -26,7 +26,7 @@ public class Attack : MonoBehaviour {
             var attack = Instantiate(attackPrototypes[attackIndex]);
             attack.transform.position = transform.position;
             attack.transform.rotation = transform.rotation;
-            attack.name += string.Format("[{0}]|{1}|{{{2}}}", attackBaseDamage, string.Join(",", attackDamageTags), gameObject.name);
+            attack.name += string.Format("[{0}]|{1}|{{{2}}}", attackBaseDamage[attackIndex], string.Join(",", attackDamageTags), gameObject.name);
             SendMessage("OnAttack", attackType, SendMessageOptions.DontRequireReceiver);
         }
     }

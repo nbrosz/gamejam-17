@@ -64,7 +64,7 @@ public class Health : MonoBehaviour {
     bool AttackDoesDamage(string collisionName) {
         var damageTags = GetDamageTags(collisionName);
         if (damageTags == null)
-            return false;
+            return true;
 
         foreach(var tag in damageTags) {
             if (gameObject.tag.Contains(tag)) // see if gameObject's tag matches any of the damage tags
