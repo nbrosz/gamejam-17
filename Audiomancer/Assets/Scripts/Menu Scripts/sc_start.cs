@@ -16,7 +16,7 @@ public class sc_start : MonoBehaviour {
     // Start Game
     void StartGame()
     {
-        SceneManager.LoadScene("TestScene");
+        SceneManager.LoadScene("Level");
     }
 
 	// Update is called once per frame
