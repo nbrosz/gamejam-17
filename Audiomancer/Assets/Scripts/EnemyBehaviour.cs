@@ -11,7 +11,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public float rotateSpeed;
     public float searchTime;
-    public float chargeGunTime;
+    public int chargeGunBeat;
+    public int MeasureCount;
     public float stunTime;
 
     private NavMeshAgent agent;
@@ -19,7 +20,6 @@ public class EnemyBehaviour : MonoBehaviour {
     private bool chasing;
     private bool searching;
     private float searchTimer;
-    private float chargeGunTimer;
     private float stunTimer;
     private bool stunned;
     private bool ableToShoot;
@@ -46,7 +46,6 @@ public class EnemyBehaviour : MonoBehaviour {
         searching = false;
         stunned = false;
         searchTimer = 0;
-        chargeGunTimer = 0;
         stunTimer = 0;
         healthScript = gameObject.GetComponent<Health>();
         GOplayer = GameObject.FindGameObjectWithTag("Player");
@@ -74,15 +73,15 @@ public class EnemyBehaviour : MonoBehaviour {
                         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
 
                         // Animate walking
-                        if (!boardAnimator.PlayingOrUpNext(GetAnimationName("Walk"))) {
+                        if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Walk")) ) {
                             boardAnimator.PlayAnimation(GetAnimationName("Walk"));
                         }
 
                         // Charge gun up
-                        if ( !ableToShoot && chargeGunTimer < chargeGunTime ) {
-                            chargeGunTimer += Time.deltaTime;
-                            if ( chargeGunTimer >= chargeGunTime )
+                        if ( !ableToShoot && GameController.Beat ) {
+                            if (GameController.TotalBeats % MeasureCount + 1 == chargeGunBeat) {
                                 ableToShoot = true;
+                            }
                         }
                     } else {
                         // play idle animation
@@ -99,7 +98,6 @@ public class EnemyBehaviour : MonoBehaviour {
                             chasing = false;
                             searching = false;
                             searchTimer = 0;
-                            chargeGunTimer = 0;
                             agent.ResetPath();
                         }
                     }
@@ -109,7 +107,6 @@ public class EnemyBehaviour : MonoBehaviour {
                         boardAnimator.QuickPlayAnimation("Attack"); // play attack animation
                         // send message to attack
                         SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
-                        chargeGunTimer = 0;
                         ableToShoot = false;
                     }
                 }
@@ -126,6 +123,10 @@ public class EnemyBehaviour : MonoBehaviour {
                 if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Dead")) ) {
                     boardAnimator.PlayAnimation(GetAnimationName("Dead"));
                 }
+            }
+        } else {
+            if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Idle")) ) {
+                boardAnimator.PlayAnimation(GetAnimationName("Idle"));
             }
         }
 	}
