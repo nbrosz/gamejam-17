@@ -9,6 +9,7 @@ public class AttackShot : MonoBehaviour {
     [HideInInspector]
     public GameObject owner;
     [HideInInspector]
+    public float damageMultiplier = 1f;
     public float damage;
     [HideInInspector]
     public string[] damageTags;
@@ -19,7 +20,7 @@ public class AttackShot : MonoBehaviour {
         if (!otherAttackShot) {
             if (col.isTrigger == false && !InheritsFromGameObject(col.gameObject, owner) && col.tag != "Ignore") {
                 if (damage != 0 && AttackDoesDamage(damageTags, col.gameObject)) { // positive damage value indicates single-shot damage
-                    col.gameObject.SendMessage("DoDamage", damage, SendMessageOptions.DontRequireReceiver);
+                    col.gameObject.SendMessage("DoDamage", damage * damageMultiplier, SendMessageOptions.DontRequireReceiver);
                 } else {
                     Destroy(gameObject);
                 }
