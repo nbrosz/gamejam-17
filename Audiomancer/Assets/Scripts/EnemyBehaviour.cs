@@ -7,17 +7,18 @@ public class EnemyBehaviour : MonoBehaviour {
 
     public float rotateSpeed;
     public float searchTime;
+    public float chargeGunTime;
 
     private NavMeshAgent agent;
     private Transform player;
     private bool chasing;
     private bool searching;
-    private float timer;
+    private float searchTimer;
+    private float chargeGunTimer;
+    private bool ableToShoot;
 
     private Quaternion lookRotation;
     private Vector3 direction;
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -25,6 +26,9 @@ public class EnemyBehaviour : MonoBehaviour {
         player = GameObject.FindWithTag("Player").transform;
         chasing = false;
         searching = false;
+        searchTimer = 0;
+        chargeGunTimer = 0;
+        ableToShoot = false;
 	}
 	
 	// Update is called once per frame
@@ -41,19 +45,35 @@ public class EnemyBehaviour : MonoBehaviour {
 
             // Rotate towards lookRotation over time
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
+
+            // Charge gun up
+            if (!ableToShoot && chargeGunTimer < chargeGunTime) {
+                chargeGunTimer += Time.deltaTime;
+                if ( chargeGunTimer >= chargeGunTime )
+                    ableToShoot = true;
+            }
         }
 
         // Player has left view radius but is close by, continue following for short time
         if (searching) {
             // Timer for searching
-            timer += Time.deltaTime;
-            if (timer >= searchTime) {
+            searchTimer += Time.deltaTime;
+            if (searchTimer >= searchTime) {
                 chasing = false;
                 searching = false;
-                timer = 0;
+                searchTimer = 0;
+                chargeGunTimer = 0;
                 agent.ResetPath();
             }
         }
+
+        // Shoot the player
+        if (ableToShoot) {
+            SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
+            chargeGunTimer = 0;
+            ableToShoot = false;
+        }
+
 	}
 
     // Check if player is within view radius
@@ -63,7 +83,7 @@ public class EnemyBehaviour : MonoBehaviour {
             if (angle <= 90) {
                 chasing = true;
                 searching = false;
-                timer = 0;
+                searchTimer = 0;
             } else {
                 if (!searching && chasing)
                     searching = true;
