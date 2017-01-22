@@ -13,6 +13,7 @@ public class EnemyBehaviour : MonoBehaviour {
     public float searchTime;
     public int chargeGunBeat;
     public int MeasureCount;
+    public Attack.AttackType[] attackOrder;
     public float stunTime;
 
     private NavMeshAgent agent;
@@ -32,6 +33,8 @@ public class EnemyBehaviour : MonoBehaviour {
     private GameObject GOplayer;
 
     private Collider[] colliders;
+
+    private int attackOrderIndex = 0;
 
     void Awake() {
         colliders = gameObject.GetComponentsInChildren<Collider>(); // preserve all colliders attached to enemy
@@ -79,7 +82,7 @@ public class EnemyBehaviour : MonoBehaviour {
 
                         // Charge gun up
                         if ( !ableToShoot && GameController.Beat ) {
-                            if (GameController.TotalBeats % MeasureCount + 1 == chargeGunBeat) {
+                            if (GameController.TotalBeats % (MeasureCount + 1) == chargeGunBeat) {
                                 ableToShoot = true;
                             }
                         }
@@ -106,13 +109,15 @@ public class EnemyBehaviour : MonoBehaviour {
                     if ( ableToShoot && GameController.Beat ) {
                         boardAnimator.QuickPlayAnimation("Attack"); // play attack animation
                         // send message to attack
-                        SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
+                        SendMessage("DoAttack", attackOrder[attackOrderIndex], SendMessageOptions.DontRequireReceiver);
+                        attackOrderIndex = (attackOrderIndex + 1) % attackOrder.Length;
                         ableToShoot = false;
                     }
                 }
 
                 // Take time to recover from stun
                 else {
+                    boardAnimator.PlayAnimation(GetAnimationName("Idle"), true);
                     stunTimer += Time.deltaTime;
                     if ( stunTimer >= stunTime ) {
                         stunned = false;
@@ -128,6 +133,7 @@ public class EnemyBehaviour : MonoBehaviour {
             if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Idle")) ) {
                 boardAnimator.PlayAnimation(GetAnimationName("Idle"));
             }
+            agent.ResetPath();
         }
 	}
 
@@ -162,7 +168,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if ( parriedData.attacker.owner == gameObject ) {
             stunned = true;
             agent.ResetPath();
-            //Debug.Log(gameObject.name + " is stunned from being parried!"); // replace
+            Debug.Log(gameObject.name + " is stunned from being parried!"); // replace
         }
     }
 
@@ -178,6 +184,7 @@ public class EnemyBehaviour : MonoBehaviour {
             collider.enabled = false; // disable all colliders so enemy can be walked through
         }
         //Debug.Log(gameObject.name + " has been killed!");
+        agent.ResetPath();
         boardAnimator.PlayAnimation("FrontDeath", true);
         boardAnimator.QueueAnimation("FrontDead");
     }

@@ -27,7 +27,7 @@ public class AttackShot : MonoBehaviour {
         } else {
             if (otherAttackShot.owner != owner && otherAttackShot.type == type) {
                 otherAttackShot.owner.gameObject.SendMessage("OnParried", new ParriedData(otherAttackShot, this), SendMessageOptions.DontRequireReceiver);
-                //Destroy(gameObject);
+                Destroy(gameObject);
             }
         }
     }
