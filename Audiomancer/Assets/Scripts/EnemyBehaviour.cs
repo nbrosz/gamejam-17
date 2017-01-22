@@ -54,7 +54,9 @@ public class EnemyBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update() {
+        // Make sure player is alive still
         if ( GOplayer.GetComponent<Health>().Alive ) {
+            GetFacingSide();
             // Make sure enemy is able to do things
             if ( healthScript.Alive ) {
                 if ( !stunned ) {
@@ -84,6 +86,9 @@ public class EnemyBehaviour : MonoBehaviour {
                         }
                     } else {
                         // play idle animation
+                        if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Idle")) ) {
+                            boardAnimator.PlayAnimation(GetAnimationName("Idle"));
+                        }
                     }
 
                     // Player has left view radius but is close by, continue following for short time
@@ -116,6 +121,10 @@ public class EnemyBehaviour : MonoBehaviour {
                         stunned = false;
                         stunTimer = 0;
                     }
+                }
+            } else {
+                if ( !boardAnimator.PlayingOrUpNext(GetAnimationName("Dead")) ) {
+                    boardAnimator.PlayAnimation(GetAnimationName("Dead"));
                 }
             }
         }
@@ -152,7 +161,7 @@ public class EnemyBehaviour : MonoBehaviour {
         if ( parriedData.attacker.owner == gameObject ) {
             stunned = true;
             agent.ResetPath();
-            Debug.Log(gameObject.name + " is stunned from being parried!"); // replace
+            //Debug.Log(gameObject.name + " is stunned from being parried!"); // replace
         }
     }
 
@@ -160,14 +169,14 @@ public class EnemyBehaviour : MonoBehaviour {
         // Start chasing player when shot, even if player is not seen
         chasing = true;
         searching = true;
-        Debug.Log(gameObject.name + " has been hurt!");
+        //Debug.Log(gameObject.name + " has been hurt!");
     }
 
     void OnKilled() {
         foreach(var collider in colliders) {
             collider.enabled = false; // disable all colliders so enemy can be walked through
         }
-        Debug.Log(gameObject.name + " has been killed!");
+        //Debug.Log(gameObject.name + " has been killed!");
         boardAnimator.PlayAnimation("FrontDeath", true);
         boardAnimator.QueueAnimation("FrontDead");
     }
@@ -191,5 +200,31 @@ public class EnemyBehaviour : MonoBehaviour {
         }
 
         boardAnimator.transform.localScale = scale;
+    }
+
+    void GetFacingSide() {
+        bool isFacingLeft = false;
+        float angle = Vector3.Angle(transform.forward, GOplayer.transform.position - transform.position);
+
+        if (angle <= 45) {  // Front facing
+            facingState = EnemyFacingState.Front;
+
+        } else if (angle >= 135) {  // Back Facing
+            facingState = EnemyFacingState.Back;
+
+        } else { // Facing a side
+            Vector3 target = GOplayer.transform.position - transform.position;
+            Vector3 perp = Vector3.Cross(transform.forward, target);
+            float dir = Vector3.Dot(perp, transform.up);
+
+            if (dir < 0) {  // Left Facing
+                isFacingLeft = true;
+                facingState = EnemyFacingState.SideL;
+
+            } else {    // Right Facing
+                facingState = EnemyFacingState.SideR;
+            }
+        }
+        SetLeftFlip(isFacingLeft);
     }
 }
