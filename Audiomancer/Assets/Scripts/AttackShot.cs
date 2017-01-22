@@ -17,16 +17,17 @@ public class AttackShot : MonoBehaviour {
         var otherAttackShot = col.GetComponent<AttackShot>();
 
         if (!otherAttackShot) {
-            if (col.isTrigger == false && !InheritsFromGameObject(col.gameObject, owner)) {
+            if (col.isTrigger == false && !InheritsFromGameObject(col.gameObject, owner) && col.tag != "Ignore") {
                 if (damage != 0 && AttackDoesDamage(damageTags, col.gameObject)) { // positive damage value indicates single-shot damage
                     col.gameObject.SendMessage("DoDamage", damage, SendMessageOptions.DontRequireReceiver);
+                } else {
+                    Destroy(gameObject);
                 }
-                Destroy(gameObject);
             }
         } else {
             if (otherAttackShot.owner != owner && otherAttackShot.type == type) {
                 otherAttackShot.owner.gameObject.SendMessage("OnParried", new ParriedData(otherAttackShot, this), SendMessageOptions.DontRequireReceiver);
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
         }
     }

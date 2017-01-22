@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour {
 
+    public BillboardAnimator animator;
+
     public float rotateSpeed;
     public float searchTime;
     public float chargeGunTime;
@@ -25,6 +27,12 @@ public class EnemyBehaviour : MonoBehaviour {
     private Vector3 direction;
 
     private GameObject GOplayer;
+
+    private Collider[] colliders;
+
+    void Awake() {
+        colliders = gameObject.GetComponentsInChildren<Collider>(); // preserve all colliders attached to enemy
+    }
 
 	// Use this for initialization
 	void Start() {
@@ -141,5 +149,14 @@ public class EnemyBehaviour : MonoBehaviour {
         chasing = true;
         searching = true;
         Debug.Log(gameObject.name + " has been hurt!");
+    }
+
+    void OnKilled() {
+        foreach(var collider in colliders) {
+            collider.enabled = false; // disable all colliders so enemy can be walked through
+        }
+        Debug.Log(gameObject.name + " has been killed!");
+        animator.PlayAnimation("FrontDeath", true);
+        animator.QueueAnimation("FrontDead");
     }
 }

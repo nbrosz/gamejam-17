@@ -6,6 +6,8 @@ public class Attack : MonoBehaviour {
 
     public AudioClip[] attackSounds;
 
+    public Transform attackPoint;
+
     public enum AttackType { WeakAndWide = 0, Medium = 1, StrongAndNarrow = 2}
     public string[] attackDamageTags;
     public GameObject[] attackPrototypes;
@@ -26,7 +28,7 @@ public class Attack : MonoBehaviour {
             attackCooldown = attackCooldownMax;
 
             var attack = Instantiate(attackPrototypes[attackIndex]);
-            attack.transform.position = transform.position;
+            attack.transform.position = attackPoint.position;
             attack.transform.rotation = transform.rotation;
 
             var attackShot = attack.GetComponent<AttackShot>();
