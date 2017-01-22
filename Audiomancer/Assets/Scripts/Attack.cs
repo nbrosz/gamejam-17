@@ -20,13 +20,19 @@ public class Attack : MonoBehaviour {
 
     void DoAttack(AttackType attackType) {
         var attackIndex = (int)attackType;
-        if (attackCooldown <= 0 && attackPrototypes.Length > attackIndex) {
+        if (attackCooldown <= 0 && attackPrototypes.Length > attackIndex && Time.timeScale > 0) {
             attackCooldown = attackCooldownMax;
 
             var attack = Instantiate(attackPrototypes[attackIndex]);
             attack.transform.position = transform.position;
             attack.transform.rotation = transform.rotation;
-            attack.name += string.Format("[{0}]|{1}|{{{2}}}", attackBaseDamage[attackIndex], string.Join(",", attackDamageTags), gameObject.name);
+
+            var attackShot = attack.GetComponent<AttackShot>();
+            attackShot.owner = gameObject;
+            attackShot.type = attackType;
+            attackShot.damage = attackBaseDamage[attackIndex];
+            attackShot.damageTags = attackDamageTags;
+
             SendMessage("OnAttack", attackType, SendMessageOptions.DontRequireReceiver);
         }
     }

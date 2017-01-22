@@ -98,4 +98,11 @@ public class EnemyBehaviour : MonoBehaviour {
                 searching = true;
         }
     }
+
+    void OnParried(AttackShot.ParriedData parriedData) {
+        if (parriedData.attacker.owner == gameObject) {
+            // stunned
+            Debug.Log(gameObject.name + " is stunned from being parried!"); // replace
+        }
+    }
 }

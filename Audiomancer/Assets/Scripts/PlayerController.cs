@@ -6,15 +6,13 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class PlayerController : MonoBehaviour {
 
     public FirstPersonController fpController;
-
-    private bool alive = true;
+    public Health health;
 
     void OnDamaged() {
         Debug.Log(gameObject.name + " has been hurt!");
     }
 
     void OnKilled() {
-        alive = false;
         fpController.canMove = false;
         Debug.Log(gameObject.name + " has been killed!");
     }
@@ -26,7 +24,7 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
+		if (health.Alive && Time.timeScale > 0 && Input.GetMouseButtonDown(0)) {
             SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
         }
 	}
