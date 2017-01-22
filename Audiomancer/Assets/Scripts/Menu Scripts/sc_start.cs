@@ -11,7 +11,9 @@ public class sc_start : MonoBehaviour {
 	void Start () {
         Button start = btn_Start.GetComponent<Button>();
         start.onClick.AddListener(StartGame);
-	}
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
 	
     // Start Game
     void StartGame()

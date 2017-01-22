@@ -1,0 +1,69 @@
+Initialize engine version: 5.5.0f3 (38b4efef76f0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA Quadro K4200 (ID=0x11b4)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+    Driver:   10.18.13.5413
+Begin MonoManager ReloadAssembly
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.Analytics.dll (this message is harmless)
+Loading E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\UnityEngine.Analytics.dll into Unity Child Domain
+- Completed reload, in  0.044 seconds
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: E:\Users\rktheroux\Documents\gamejam-17\Builds\Metalmancer_Data\Managed\System.dll (this message is harmless)
+desktop: 1920x1080 60Hz; virtual: 3840x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.172613 ms
+Setting up 1 worker threads for Enlighten.
+  Thread -> id: 83f0 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 5.790487 ms
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 1908.
+Total: 0.771967 ms (FindLiveObjects: 0.135625 ms CreateObjectMapping: 0.108134 ms MarkObjects: 0.508413 ms  DeleteObjects: 0.019427 ms)
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "EnemyBillboard"
+ 
+(Filename:  Line: 0)
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "EnemyBillboard"
+ 
+(Filename:  Line: 0)
+
+BoxColliders does not support negative scale or size.
+The effective box size has been forced positive and is likely to give unexpected collision geometry.
+If you absolutely need to use negative scaling you can use the convex MeshCollider. Scene hierarchy path "EnemyBillboard"
+ 
+(Filename:  Line: 0)
+
+OnBeat: True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+OnBeat: True
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Unloading 2 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 2.528137 ms
+
+Unloading 297 unused Assets to reduce memory usage. Loaded Objects now: 348.
+Total: 2.112096 ms (FindLiveObjects: 0.042887 ms CreateObjectMapping: 0.066346 ms MarkObjects: 0.333566 ms  DeleteObjects: 1.668563 ms)
+
