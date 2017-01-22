@@ -82,7 +82,7 @@ public class EnemyBehaviour : MonoBehaviour {
                     }
 
                     // Shoot the player
-                    if ( ableToShoot ) {
+                    if ( ableToShoot && GameController.Beat ) {
                         SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
                         chargeGunTimer = 0;
                         ableToShoot = false;
