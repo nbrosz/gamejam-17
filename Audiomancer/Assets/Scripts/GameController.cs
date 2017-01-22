@@ -4,17 +4,25 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
-    public static bool Beat { get { return _instance.beat; } }
+    public static bool Beat { get { return Instance.beat; } }
     public static bool OnBeat {
         get {
-            var allowedBeatOffset = _instance.BeatTime * _instance.allowedBeatOffset * .5f; // calculate allowed time and split in half
-            return _instance.currentBeats >= _instance.BeatTime - allowedBeatOffset // half of allowed time too fast
-                ||  _instance.currentBeats <= allowedBeatOffset; // or half of allowed time too slow
+            var allowedBeatOffset = Instance.BeatTime * Instance.allowedBeatOffset * .5f; // calculate allowed time and split in half
+            return Instance.currentBeats >= Instance.BeatTime - allowedBeatOffset // half of allowed time too fast
+                || Instance.currentBeats <= allowedBeatOffset; // or half of allowed time too slow
         }
     }
 
     private float BeatTime { get { return (60 / beatsPerMinute); } }
 
+    private static GameController Instance {
+        get {
+            if (_instance == null)
+                throw new System.Exception("Require GameController in scene!");
+            else
+                return _instance;
+        }
+    }
     private static GameController _instance;
 
     public AudioSource audioSource;

@@ -41,9 +41,13 @@ public class BillboardAnimator : MonoBehaviour {
         }
     }
 
+    /// <summary>Start playing an animation with the specified name</summary>
     public void PlayAnimation(string animationName, bool clearQueue = false) {
         if (clearQueue)
             animationQueue.Clear();
+
+        if (currentAnimation == animationName)
+            return; // don't bother if already playing
 
         currentAnimation = animationName;
         var frameArray = animationSheets[animationName];
@@ -54,8 +58,29 @@ public class BillboardAnimator : MonoBehaviour {
         SetAnimationFrame(frameArray[frameCounter]);
     }
 
+    /// <summary>Queue an animation to play</summary>
     public void QueueAnimation(string animationName) {
         animationQueue.Enqueue(animationName);
+    }
+
+    /// <summary>Push current animation to the queue and immediately play this one</summary>
+    public void QuickPlayAnimation(string animationName) {
+        if (currentAnimation != null) {
+            var currentQueue = animationQueue.ToArray();
+            animationQueue.Clear();
+            // push current animation to front
+            animationQueue.Enqueue(currentAnimation);
+            // then everything else
+            foreach (var animation in currentQueue)
+                animationQueue.Enqueue(animation);
+        }
+
+        // finally play new animation
+        PlayAnimation(animationName);
+    }
+
+    public bool PlayingOrUpNext(string animationName) {
+        return currentAnimation == animationName || (animationQueue.Count > 0 && animationQueue.Peek() == animationName);
     }
 
 	void Update () {

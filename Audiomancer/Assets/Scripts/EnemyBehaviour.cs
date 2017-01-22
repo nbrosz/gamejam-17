@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public class EnemyBehaviour : MonoBehaviour {
 
-    public BillboardAnimator animator;
+    private enum EnemyFacingState { Front, SideR, Back, SideL }
+
+    public BillboardAnimator boardAnimator;
 
     public float rotateSpeed;
     public float searchTime;
@@ -22,6 +24,7 @@ public class EnemyBehaviour : MonoBehaviour {
     private bool stunned;
     private bool ableToShoot;
     private Health healthScript;
+    private EnemyFacingState facingState;
 
     private Quaternion lookRotation;
     private Vector3 direction;
@@ -68,12 +71,19 @@ public class EnemyBehaviour : MonoBehaviour {
                         // Rotate towards lookRotation over time
                         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * rotateSpeed);
 
+                        // Animate walking
+                        if (!boardAnimator.PlayingOrUpNext(GetAnimationName("Walk"))) {
+                            boardAnimator.PlayAnimation(GetAnimationName("Walk"));
+                        }
+
                         // Charge gun up
                         if ( !ableToShoot && chargeGunTimer < chargeGunTime ) {
                             chargeGunTimer += Time.deltaTime;
                             if ( chargeGunTimer >= chargeGunTime )
                                 ableToShoot = true;
                         }
+                    } else {
+                        // play idle animation
                     }
 
                     // Player has left view radius but is close by, continue following for short time
@@ -91,6 +101,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
                     // Shoot the player
                     if ( ableToShoot && GameController.Beat ) {
+                        boardAnimator.QuickPlayAnimation("Attack"); // play attack animation
+                        // send message to attack
                         SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
                         chargeGunTimer = 0;
                         ableToShoot = false;
@@ -156,7 +168,28 @@ public class EnemyBehaviour : MonoBehaviour {
             collider.enabled = false; // disable all colliders so enemy can be walked through
         }
         Debug.Log(gameObject.name + " has been killed!");
-        animator.PlayAnimation("FrontDeath", true);
-        animator.QueueAnimation("FrontDead");
+        boardAnimator.PlayAnimation("FrontDeath", true);
+        boardAnimator.QueueAnimation("FrontDead");
+    }
+
+    string GetAnimationName(string animationType) {
+        switch (facingState) {
+            case EnemyFacingState.Front: return "Front" + animationType;
+            case EnemyFacingState.Back: return "Back" + animationType;
+            case EnemyFacingState.SideR: return "Side" + animationType;
+            case EnemyFacingState.SideL: return "Side" + animationType;
+        }
+        return null;
+    }
+
+    void SetLeftFlip(bool isFacingLeft) {
+        var scale = boardAnimator.transform.localScale;
+        if (!isFacingLeft) {
+            scale.x = Mathf.Abs(scale.x);
+        } else {
+            scale.x = -Mathf.Abs(scale.x);
+        }
+
+        boardAnimator.transform.localScale = scale;
     }
 }
