@@ -83,6 +83,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            if (Time.timeScale == 0) {
+                Cursor.visible = true;
+            } else {
+                Cursor.visible = false;
+            }
         }
 
 

@@ -11,6 +11,7 @@ public class sc_toMenu : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Cursor.visible = true;
         Button main = btn_toMenu.GetComponent<Button>();
         main.onClick.AddListener(RestartGame);
     }
