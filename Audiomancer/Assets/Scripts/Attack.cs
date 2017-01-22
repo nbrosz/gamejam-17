@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour {
 
-    public AudioClip[] attackSounds;
-
     public Transform attackPoint;
 
     public enum AttackType { WeakAndWide = 0, Medium = 1, StrongAndNarrow = 2}
@@ -36,10 +34,6 @@ public class Attack : MonoBehaviour {
             attackShot.damageMultiplier = GameController.OnBeat ? 1f : .5f; // full damage if on beat, otherwise half damage
             Debug.Log("OnBeat: " + GameController.OnBeat.ToString());
             attackShot.damageTags = attackDamageTags;
-
-            if (attackSounds.Length > (int)attackType) {
-                AudioSource.PlayClipAtPoint(attackSounds[(int)attackType], transform.position);
-            }
 
             SendMessage("OnAttack", attackType, SendMessageOptions.DontRequireReceiver);
         }

@@ -6,6 +6,7 @@ using UnityEngine;
 public class AttackShot : MonoBehaviour {
 
     public Attack.AttackType type;
+    public AudioClip attackSound;
     [HideInInspector]
     public GameObject owner;
     [HideInInspector]
@@ -13,6 +14,10 @@ public class AttackShot : MonoBehaviour {
     public float damage;
     [HideInInspector]
     public string[] damageTags;
+
+    void Start() {
+        AudioSource.PlayClipAtPoint(attackSound, transform.position);
+    }
 
     void OnTriggerEnter(Collider col) {
         var otherAttackShot = col.GetComponent<AttackShot>();

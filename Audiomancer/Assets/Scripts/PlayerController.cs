@@ -24,8 +24,13 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (health.Alive && Time.timeScale > 0 && Input.GetMouseButtonDown(0)) {
-            SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
+		if (health.Alive && Time.timeScale > 0) {
+            if (Input.GetMouseButtonDown(0))
+                SendMessage("DoAttack", Attack.AttackType.WeakAndWide, SendMessageOptions.DontRequireReceiver);
+            else if (Input.GetMouseButtonDown(2))
+                SendMessage("DoAttack", Attack.AttackType.Medium, SendMessageOptions.DontRequireReceiver);
+            else if (Input.GetMouseButtonDown(1))
+                SendMessage("DoAttack", Attack.AttackType.StrongAndNarrow, SendMessageOptions.DontRequireReceiver);
         }
 	}
 }
