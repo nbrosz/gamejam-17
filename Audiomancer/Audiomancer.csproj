@@ -125,6 +125,12 @@
     <Compile Include="Assets\Scripts\DestroyTimer.cs" />
     <Compile Include="Assets\Scripts\EnemyBehaviour.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\Healthbar.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\sc_Continue.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\sc_launchPause.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\sc_quit.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\sc_start.cs" />
+    <Compile Include="Assets\Scripts\Menu Scripts\sc_toMenu.cs" />
     <Compile Include="Assets\Scripts\OnTouchCallFunction.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Propel.cs" />

@@ -18,6 +18,7 @@ public class sc_toMenu : MonoBehaviour
     // Start Game
     void RestartGame()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("StartScene");
     }
 
