@@ -8,10 +8,11 @@ public class GameController : MonoBehaviour {
     public static bool OnBeat {
         get {
             var allowedBeatOffset = Instance.BeatTime * Instance.allowedBeatOffset * .5f; // calculate allowed time and split in half
-            return Instance.currentBeats >= Instance.BeatTime - allowedBeatOffset // half of allowed time too fast
-                || Instance.currentBeats <= allowedBeatOffset; // or half of allowed time too slow
+            return Instance.currentBeatTimer >= Instance.BeatTime - allowedBeatOffset // half of allowed time too fast
+                || Instance.currentBeatTimer <= allowedBeatOffset; // or half of allowed time too slow
         }
     }
+    public static int TotalBeats { get { return Instance.totalBeats; } }
 
     private float BeatTime { get { return (60 / beatsPerMinute); } }
 
@@ -31,10 +32,11 @@ public class GameController : MonoBehaviour {
     public float beatsPerMinute = 90;
     public float allowedBeatOffset = .25f;
 
-    private float currentBeats = 0;
+    private float currentBeatTimer = 0;
     private bool beat = false;
 
     private int beatIndex = 0;
+    private int totalBeats = 0;
 
     void Awake() {
         // Force singleton pattern
@@ -48,12 +50,13 @@ public class GameController : MonoBehaviour {
         if (beat)
             beat = false;
 
-        if (currentBeats < BeatTime) {
-            currentBeats += Time.deltaTime;
+        if (currentBeatTimer < BeatTime) {
+            currentBeatTimer += Time.deltaTime;
 
-            if (currentBeats >= BeatTime) {
-                currentBeats = 0;
+            if (currentBeatTimer >= BeatTime) {
+                currentBeatTimer = 0;
                 beat = true;
+                totalBeats++;
                 PlayBeat();
             }
         }
