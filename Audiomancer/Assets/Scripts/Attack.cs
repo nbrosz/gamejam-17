@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour {
 
+    public AudioClip[] attackSounds;
+
     public enum AttackType { WeakAndWide = 0, Medium = 1, StrongAndNarrow = 2}
     public string[] attackDamageTags;
     public GameObject[] attackPrototypes;
@@ -32,6 +34,10 @@ public class Attack : MonoBehaviour {
             attackShot.type = attackType;
             attackShot.damage = attackBaseDamage[attackIndex];
             attackShot.damageTags = attackDamageTags;
+
+            if (attackSounds.Length > (int)attackType) {
+                AudioSource.PlayClipAtPoint(attackSounds[(int)attackType], transform.position);
+            }
 
             SendMessage("OnAttack", attackType, SendMessageOptions.DontRequireReceiver);
         }

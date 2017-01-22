@@ -119,6 +119,7 @@
     <Compile Include="Assets\Imported\Standard Assets\Utility\TimedObjectDestructor.cs" />
     <Compile Include="Assets\Imported\Standard Assets\Utility\WaypointCircuit.cs" />
     <Compile Include="Assets\Imported\Standard Assets\Utility\WaypointProgressTracker.cs" />
+    <Compile Include="Assets\Imported\TextureTilingController.cs" />
     <Compile Include="Assets\Scripts\Attack.cs" />
     <Compile Include="Assets\Scripts\AttackShot.cs" />
     <Compile Include="Assets\Scripts\CameraFacingBillboard.cs" />

@@ -13,15 +13,20 @@ public class GameController : MonoBehaviour {
         }
     }
 
-    private float BeatTime { get { return (1 / beatsPerMinute / 60); } }
+    private float BeatTime { get { return (60 / beatsPerMinute); } }
 
     private static GameController _instance;
+
+    public AudioSource audioSource;
+    public AudioClip[] beats;
 
     public float beatsPerMinute = 90;
     public float allowedBeatOffset = .25f;
 
     private float currentBeats = 0;
     private bool beat = false;
+
+    private int beatIndex = 0;
 
     void Awake() {
         // Force singleton pattern
@@ -41,7 +46,13 @@ public class GameController : MonoBehaviour {
             if (currentBeats >= BeatTime) {
                 currentBeats = 0;
                 beat = true;
+                PlayBeat();
             }
         }
 	}
+
+    void PlayBeat() {
+        audioSource.PlayOneShot(beats[beatIndex]);
+        beatIndex = (beatIndex + 1) % beats.Length;
+    }
 }
