@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class sc_launchPause : MonoBehaviour {
 
-    public GameObject btn_Cont;
-    public GameObject btn_Quit;
-    public GameObject btn_toMenu;
+    public GameObject[] PauseScreenItems;
 
 	// Use this for initialization
 	void Start () {
-        btn_Cont.SetActive(false);
-        btn_Quit.SetActive(false);
-        btn_toMenu.SetActive(false);
+        foreach ( GameObject g in PauseScreenItems ) {
+            g.SetActive(false);
+        }
 	}
 
     // Update is called once per frame
@@ -22,16 +20,16 @@ public class sc_launchPause : MonoBehaviour {
             if (Time.timeScale == 1)
             {
                 Time.timeScale = 0;
-                btn_Cont.SetActive(true);
-                btn_Quit.SetActive(true);
-                btn_toMenu.SetActive(true);
+                foreach ( GameObject g in PauseScreenItems ) {
+                    g.SetActive(true);
+                }
             }
             else
             {
                 Time.timeScale = 1;
-                btn_Cont.SetActive(false);
-                btn_Quit.SetActive(false);
-                btn_toMenu.SetActive(false);
+                foreach ( GameObject g in PauseScreenItems ) {
+                    g.SetActive(false);
+                }
             }
         }
     }
